@@ -21,13 +21,12 @@ with open(log_path, "r", encoding="utf-8", errors="ignore") as f:
             epochs.append(current_epoch)
             train_acc.append(float(m_acc.group(1)))
             test_acc.append(float(m_acc.group(2)))
-            current_epoch = None  # reset until the next epoch block
+            current_epoch = None  
 
-# Sanity check
+
 if not epochs:
     raise RuntimeError("No epochs parsed. Check file path/format.")
 
-# Sort by epoch in case they’re out of order
 z = sorted(zip(epochs, train_acc, test_acc), key=lambda x: x[0])
 epochs, train_acc, test_acc = map(list, zip(*z))
 
