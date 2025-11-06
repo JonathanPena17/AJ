@@ -30,55 +30,28 @@ This repository contains all you need to reproduce fault injection experiments w
 
 1. **Launch Your AWS Instance**
    - Use the official Ubuntu 20.04 LTS AMI
-   - Allocate 100GB storage for root volume
+   - Allocate >100GB storage for root volume
    - Select the g4dn.xlarge instance type with a Tesla T4 GPU
      
-2. **Install NVIDIA Drivers & CUDA Toolkit**
-   ```
-   # Add repository and key
-   wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
-   sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
-   sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
-   sudo add-apt-repository "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
-   sudo apt update
-   sudo apt install cuda-11-7 nvidia-driver-525 -y
-   echo 'export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}' >> ~/.bashrc
-   source ~/.bashrc
-   ```
-
-   - **Verify installations:**
-     ```
-     nvidia-smi
-     nvcc --version
-     ```
-
-3. **Install Python, Git, and GCC**
-   ```
-   sudo apt install python3 python3-pip git gcc-11 g++-11 -y
-   python3 --version
-   git --version
-   gcc --version
-   ```
-
-4. **Clone NVBitFI Repository**
+2. **Clone NVBitFI Repository**
    ```
    git clone https://github.com/NVlabs/nvbitfi.git
    cd nvbitfi
    make
    ```
 
-5. **Clone This Repository**
+3. **Clone This Repository**
    ```
    cd ~
    git clone https://github.com/JonathanPena17/AJ.git
    ```
 
-6. **Copy LeNetMNIST to NVBitFI Test Apps**
+4. **Copy LeNetMNIST to NVBitFI Test Apps**
    ```
    cp -r ~/AJ/lenetMNIST ~/nvbitfi/test-apps/
    ```
 
-7. **Configure `params.py`**
+5. **Configure `params.py`**
    - Open the params.py file in the NVBitFI scripts directory:
      ```
      cd ~/nvbitfi/scripts
@@ -107,7 +80,7 @@ This repository contains all you need to reproduce fault injection experiments w
      }
 
      ```
-8. **Configure `Makefile`**
+6. **Configure `Makefile`**
    - Open the Makefile file in the NVBitFI profiler directory:
      ```
      cd ~/nvbitfi/profiler
