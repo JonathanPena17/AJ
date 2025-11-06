@@ -1,7 +1,3 @@
-// lenet5_mnist_train.cu
-// LeNet-5 Training on MNIST Dataset - CUDA C++ Implementation
-// Compile: nvcc -o lenet5_mnist lenet5_mnist_train.cu -O3 -std=c++11
-
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,15 +16,14 @@
         } \
     } while(0)
 
-// Network architecture for MNIST (28x28x1 grayscale input)
 #define INPUT_SIZE 28
-#define INPUT_CHANNELS 1  // Grayscale
+#define INPUT_CHANNELS 1  
 #define C1_FILTERS 6
-#define C1_SIZE 24        // 28 - 5 + 1 = 24
-#define S2_SIZE 12        // 24 / 2 = 12
+#define C1_SIZE 24       
+#define S2_SIZE 12       
 #define C3_FILTERS 16
-#define C3_SIZE 8         // 12 - 5 + 1 = 8
-#define S4_SIZE 4         // 8 / 2 = 4
+#define C3_SIZE 8        
+#define S4_SIZE 4        
 #define C5_SIZE 120
 #define F6_SIZE 84
 #define OUTPUT_SIZE 10
@@ -45,12 +40,12 @@
 // ==================== MNIST Data Loading ====================
 
 typedef struct {
-    float* images;      // [N, 1, 28, 28] flattened
+    float* images;     
     unsigned char* labels;
     int count;
 } MNISTData;
 
-// Reverse byte order for MNIST format
+
 uint32_t reverse_int(uint32_t i) {
     uint8_t c1, c2, c3, c4;
     c1 = i & 255;
@@ -433,20 +428,19 @@ __global__ void relu_backward(float* grad, const float* output, int size) {
 }
 
 // ==================== LeNet-5 Model ====================
-
 typedef struct {
     // Layer outputs (forward)
-    float *d_input;  // [1, 28, 28]
+    float *d_input;  
     float *d_conv1_out, *d_pool1_out;
     float *d_conv2_out, *d_pool2_out;
     float *d_fc1_out, *d_fc2_out, *d_output;
     
     // Weights
-    float *d_conv1_w, *d_conv1_b;  // [6, 1, 5, 5]
-    float *d_conv2_w, *d_conv2_b;  // [16, 6, 5, 5]
-    float *d_fc1_w, *d_fc1_b;      // [120, 256]
-    float *d_fc2_w, *d_fc2_b;      // [84, 120]
-    float *d_fc3_w, *d_fc3_b;      // [10, 84]
+    float *d_conv1_w, *d_conv1_b; 
+    float *d_conv2_w, *d_conv2_b; 
+    float *d_fc1_w, *d_fc1_b;     
+    float *d_fc2_w, *d_fc2_b;     
+    float *d_fc3_w, *d_fc3_b;      
     
     // Gradients (for backprop)
     float *d_grad_output, *d_grad_fc2, *d_grad_fc1;
@@ -701,14 +695,10 @@ void free_lenet5(LeNet5* model) {
 
 void train_epoch(LeNet5* model, float* images, unsigned char* labels, int num_samples, float lr) {
     for (int i = 0; i < num_samples; i++) {
-        // Copy image to device
         CHECK_CUDA(cudaMemcpy(model->d_input, &images[i * INPUT_SIZE * INPUT_SIZE],
                              INPUT_SIZE * INPUT_SIZE * sizeof(float), cudaMemcpyHostToDevice));
-        
-        // Forward pass
         forward_pass(model);
-        
-        // Backward pass
+
         backward_pass(model, labels[i], lr);
         
         if ((i + 1) % 1000 == 0) {
@@ -749,39 +739,32 @@ float test_accuracy(LeNet5* model, float* images, unsigned char* labels, int num
 // ==================== Main ====================
 
 int main(int argc, char** argv) {
-    printf("LeNet-5 MNIST Training (CUDA Implementation)\n");
+    printf("LeNet-5 MNIST Training\n");
     printf("=============================================\n\n");
     
-    // Check command line arguments
     if (argc != 5) {
         fprintf(stderr, "Usage: %s <train-images> <train-labels> <test-images> <test-labels>\n", argv[0]);
         fprintf(stderr, "Example: %s train-images-idx3-ubyte train-labels-idx1-ubyte t10k-images-idx3-ubyte t10k-labels-idx1-ubyte\n", argv[0]);
         return 1;
     }
-    
-    // Load MNIST data
+
     printf("Loading MNIST dataset...\n");
     MNISTData train_data = load_mnist_train(argv[1], argv[2]);
     MNISTData test_data = load_mnist_test(argv[3], argv[4]);
     
     printf("Loaded %d training samples and %d test samples\n\n", train_data.count, test_data.count);
     
-    // Initialize model
     printf("Initializing LeNet-5 model...\n");
     LeNet5 model;
     init_lenet5(&model);
     printf("Model initialized\n\n");
 
-    // Training loop
     printf("Starting training...\n");
     for (int epoch = 0; epoch < EPOCHS; epoch++) {
         printf("Epoch %d/%d\n", epoch + 1, EPOCHS);
         
-        // Train
         train_epoch(&model, train_data.images, train_data.labels, train_data.count, LEARNING_RATE);
         
-   
-        // Test
         float train_acc = test_accuracy(&model, train_data.images, train_data.labels, 1000); // Sample
         float test_acc = test_accuracy(&model, test_data.images, test_data.labels, test_data.count);
         
@@ -791,7 +774,6 @@ int main(int argc, char** argv) {
     printf("Training complete!\n");
     printf("Final Test Accuracy: %.2f%%\n", test_accuracy(&model, test_data.images, test_data.labels, test_data.count));
     
-    // Cleanup
     free(train_data.images);
     free(train_data.labels);
     free(test_data.images);

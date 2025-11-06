@@ -1,0 +1,4 @@
+App	IGID	Injection Model	Num Jobs	Total Runtime	Total Runtime without Timeouts
+lenetMNIST	gp	FLIP_SINGLE_BIT	1	66.586283	66.586283
+fp32	FLIP_SINGLE_BIT	1	67.085181	67.085181
+FLIP_TWO_BITS	1	67.086412	67.086412
