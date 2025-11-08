@@ -121,6 +121,10 @@ This repository contains all you need to reproduce fault injection experiments w
   ```
   cd ~/nvbit_release/tools/nvbitfi/logs/results
 
+  cd ~/nvbit_release/tools/nvbitfi/logs/lenetMNIST
+
+  ```
+
 ---
 
 ## References
