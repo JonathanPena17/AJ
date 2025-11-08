@@ -48,7 +48,7 @@ This repository contains all you need to reproduce fault injection experiments w
 
 4. **Copy LeNetMNIST to NVBitFI Test Apps**
    ```
-   cp -r ~/AJ/lenetMNIST ~/nvbitfi/test-apps/
+   cp -r ~/AJ/lenetMNIST ~/nvbit_release/tools/nvbitfi/test-apps/
    ```
 
 5. **Configure `params.py`**
@@ -97,7 +97,7 @@ This repository contains all you need to reproduce fault injection experiments w
 
 - Navigate to NVBitFI tools directory:
   ```
-  cd ~/nvbitfi/tools/nvbitfi
+  cd ~/nvbit_release/tools/nvbitfi
   ```
 - Run to profile the application:
   ```
@@ -112,17 +112,14 @@ This repository contains all you need to reproduce fault injection experiments w
   ```
   python3 scripts/run_injections.py standalone 
   ```
-- Monitor progress:
-  ```
-  tail -f logs/lenetMNIST/nohup.out
-  ```
+  
 - Parse results:
   ```
   python3 scripts/parse_results.py
   ```
 - Results will be located in the log directory:
   ```
-  cd ~/nvbitfi/tools/nvbitfi/logs/results
+  cd ~/nvbit_release/tools/nvbitfi/logs/results
 
 ---
 
