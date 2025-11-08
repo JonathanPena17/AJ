@@ -95,7 +95,7 @@ This repository contains all you need to reproduce fault injection experiments w
 
 ## Running the Experiments
 
-- Navigate to NVBitFI tools directory:
+- Navigate to NVBitFI directory:
   ```
   cd ~/nvbit_release/tools/nvbitfi
   ```
