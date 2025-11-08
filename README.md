@@ -35,9 +35,10 @@ This repository contains all you need to reproduce fault injection experiments w
      
 2. **Clone NVBitFI Repository**
    ```
-   git clone https://github.com/NVlabs/nvbitfi.git
+   git clone https://github.com/NVlabs/nvbitfi
    cd nvbitfi
-   make
+   find . -name "*.sh" | xargs chmod +x
+   ./test.sh
    ```
 
 3. **Clone This Repository**
